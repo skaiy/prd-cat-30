@@ -37,6 +37,10 @@ import MEMBER/PROFILE from '../pages/member/profile.jsx';
 import MEMBER/POINTS from '../pages/member/points.jsx';
 import MEMBER/CATEGORIES from '../pages/member/categories.jsx';
 import NOT_FOUND from '../pages/not-found.jsx';
+import MEMBER_LOGIN from '../pages/member-login.jsx';
+import ADMIN_LOGIN from '../pages/admin-login.jsx';
+import MEMBER_NOT-FOUND from '../pages/member-not-found.jsx';
+import ADMIN_NOT-FOUND from '../pages/admin-not-found.jsx';
 export const routers = [{
   id: "members",
   component: MEMBERS
@@ -154,4 +158,16 @@ export const routers = [{
 }, {
   id: "not-found",
   component: NOT_FOUND
+}, {
+  id: "member-login",
+  component: MEMBER_LOGIN
+}, {
+  id: "admin-login",
+  component: ADMIN_LOGIN
+}, {
+  id: "member-not-found",
+  component: MEMBER_NOT-FOUND
+}, {
+  id: "admin-not-found",
+  component: ADMIN_NOT-FOUND
 }]

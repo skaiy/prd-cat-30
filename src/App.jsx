@@ -26,6 +26,14 @@ import Profile from './pages/member/profile';
 import Points from './pages/member/points';
 import CategoriesMember from './pages/member/categories';
 
+// 独立登录页面
+import MemberLogin from './pages/member-login';
+import AdminLogin from './pages/admin-login';
+
+// 独立404页面
+import MemberNotFound from './pages/member-not-found';
+import AdminNotFound from './pages/admin-not-found';
+
 // 共享页面
 import Login from './pages/login';
 import NotFound from './pages/not-found';
@@ -45,8 +53,15 @@ const lifecycleConfig = {
       });
     }
 
-    // 返回404页面组件
-    return NotFound;
+    // 根据当前路径判断用户类型，返回对应的404页面
+    const path = window.location.pathname;
+    if (path.startsWith('/admin') || path.startsWith('/admin-login')) {
+      return AdminNotFound;
+    } else if (path.startsWith('/member') || path.startsWith('/member-login')) {
+      return MemberNotFound;
+    } else {
+      return NotFound;
+    }
   }
 };
 
@@ -78,9 +93,18 @@ function App() {
       variant: 'destructive'
     });
 
+    // 根据当前路径判断用户类型，跳转到对应的404页面
+    const path = window.location.pathname;
+    let targetPath = '/not-found';
+    if (path.startsWith('/admin') || path.startsWith('/admin-login')) {
+      targetPath = '/admin-not-found';
+    } else if (path.startsWith('/member') || path.startsWith('/member-login')) {
+      targetPath = '/member-not-found';
+    }
+
     // 延迟跳转到404页面，确保错误提示显示
     setTimeout(() => {
-      window.location.href = '/not-found';
+      window.location.href = targetPath;
     }, 1000);
 
     // 返回一个加载状态
@@ -98,6 +122,14 @@ function App() {
   // 根据当前路径返回对应的页面组件
   const getCurrentPage = () => {
     const path = window.location.pathname;
+
+    // 独立登录页面路由
+    if (path === '/member-login') return MemberLogin;
+    if (path === '/admin-login') return AdminLogin;
+
+    // 独立404页面路由
+    if (path === '/member-not-found') return MemberNotFound;
+    if (path === '/admin-not-found') return AdminNotFound;
 
     // 管理后台路由
     if (path === '/admin/dashboard') return Dashboard;
@@ -122,10 +154,8 @@ function App() {
     if (path === '/member/points') return Points;
     if (path === '/member/categories') return CategoriesMember;
 
-    // 共享路由
+    // 共享路由（保持向后兼容）
     if (path === '/login') return Login;
-
-    // 404页面路由
     if (path === '/not-found') return NotFound;
 
     // 默认重定向到会员首页
